@@ -61,12 +61,21 @@ namespace C_TweaksPs1.Models
         [JsonPropertyName("ScheduledTask")]
         public List<ScheduledTaskEntry>? ScheduledTask { get; set; }
 
+        /// <summary>
+        /// List of PowerShell scripts to execute when applying this tweak.
+        /// </summary>
         [JsonPropertyName("InvokeScript")]
         public List<string>? InvokeScript { get; set; }
 
+        /// <summary>
+        /// List of PowerShell scripts to execute when undoing this tweak.
+        /// </summary>
         [JsonPropertyName("UndoScript")]
         public List<string>? UndoScript { get; set; }
 
+        /// <summary>
+        /// List of Windows Store app package names (AppX) to remove when executing this tweak.
+        /// </summary>
         [JsonPropertyName("appx")]
         public List<string>? Appx { get; set; }
     }
