@@ -49,9 +49,15 @@ namespace C_TweaksPs1.Models
         [JsonPropertyName("registry")]
         public List<RegistryEntry>? Registry { get; set; }
 
+        /// <summary>
+        /// List of Windows Services to modify when executing this tweak.
+        /// </summary>
         [JsonPropertyName("service")]
         public List<ServiceEntry>? Service { get; set; }
 
+        /// <summary>
+        /// List of Windows Scheduled Tasks to enable or disable when executing this tweak.
+        /// </summary>
         [JsonPropertyName("ScheduledTask")]
         public List<ScheduledTaskEntry>? ScheduledTask { get; set; }
 
