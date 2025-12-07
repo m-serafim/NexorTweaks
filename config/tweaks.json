@@ -2608,20 +2608,7 @@
     "Description": "Great Windows 11 tweak to bring back good context menus when right clicking things in explorer.",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
-    "Order": "a027_"
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    "Order": "a027_",
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/rightclickmenu"
   },
   "WPFTweaksDiskCleanup": {
