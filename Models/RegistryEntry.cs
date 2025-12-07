@@ -13,9 +13,15 @@ namespace C_TweaksPs1.Models
         [JsonPropertyName("Path")]
         public string Path { get; set; } = string.Empty;
 
+        /// <summary>
+        /// The name of the registry value to modify.
+        /// </summary>
         [JsonPropertyName("Name")]
         public string Name { get; set; } = string.Empty;
 
+        /// <summary>
+        /// The data type of the registry value (String, DWord, QWord, Binary, MultiString, ExpandString).
+        /// </summary>
         [JsonPropertyName("Type")]
         public string Type { get; set; } = string.Empty;
 
