@@ -165,6 +165,7 @@ This project replicates functionality from:
 - Full restore/undo capability
 - Comprehensive error handling
 - Non-destructive failure modes
+- JSON schema validation on load
 
 ⚠️ **Important Warnings**:
 - Always run as Administrator
