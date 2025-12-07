@@ -58,7 +58,19 @@ This application provides a clean, interactive console interface to apply and un
 
 ### 📋 Configuration
 
-The application loads tweaks from `config/tweaks.json`, sourced from the [m-serafim/winutil](https://github.com/m-serafim/winutil) project. The JSON format includes:
+The application loads tweaks from `config/tweaks.json`, sourced from the [m-serafim/winutil](https://github.com/m-serafim/winutil) project.
+
+#### JSON Validation
+
+Always validate the JSON configuration after making changes:
+```bash
+./scripts/validate-json.sh  # Linux/Mac
+.\scripts\validate-json.ps1 # Windows
+```
+
+See [docs/JSON_SCHEMA.md](docs/JSON_SCHEMA.md) for complete schema documentation.
+
+The JSON format includes:
 
 ```json
 {
@@ -153,6 +165,7 @@ This project replicates functionality from:
 - Full restore/undo capability
 - Comprehensive error handling
 - Non-destructive failure modes
+- JSON schema validation on load
 
 ⚠️ **Important Warnings**:
 - Always run as Administrator

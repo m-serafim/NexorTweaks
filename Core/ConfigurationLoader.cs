@@ -3,10 +3,20 @@ using C_TweaksPs1.Models;
 
 namespace C_TweaksPs1.Core
 {
+    /// <summary>
+    /// Loads and validates the tweak configuration from JSON files.
+    /// </summary>
     public class ConfigurationLoader
     {
         private const string DefaultConfigPath = "config/tweaks.json";
 
+        /// <summary>
+        /// Loads the tweak configuration from the specified JSON file.
+        /// </summary>
+        /// <param name="configPath">Optional path to the configuration file. Uses default if not provided.</param>
+        /// <returns>A TweakConfig object containing all loaded tweaks.</returns>
+        /// <exception cref="FileNotFoundException">Thrown when the configuration file cannot be found.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when no tweaks are found in the file.</exception>
         public TweakConfig LoadConfiguration(string? configPath = null)
         {
             try
@@ -18,7 +28,10 @@ namespace C_TweaksPs1.Core
                     throw new FileNotFoundException($"Configuration file not found: {path}");
                 }
 
+                // Read JSON file with proper error handling
                 var jsonContent = File.ReadAllText(path);
+                
+                // Configure JSON deserialization options for flexibility
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true,
@@ -26,6 +39,7 @@ namespace C_TweaksPs1.Core
                     AllowTrailingCommas = true
                 };
 
+                // Deserialize JSON into tweak dictionary
                 var tweaks = JsonSerializer.Deserialize<Dictionary<string, Tweak>>(jsonContent, options);
                 
                 if (tweaks == null || tweaks.Count == 0)
@@ -43,6 +57,11 @@ namespace C_TweaksPs1.Core
             }
         }
 
+        /// <summary>
+        /// Organizes tweaks by their category for easier navigation.
+        /// </summary>
+        /// <param name="config">The loaded tweak configuration.</param>
+        /// <returns>A dictionary mapping category names to lists of tweak keys, ordered by the tweak's Order property.</returns>
         public Dictionary<string, List<string>> GetTweaksByCategory(TweakConfig config)
         {
             var categories = new Dictionary<string, List<string>>();

@@ -2089,20 +2089,7 @@
     "Description": "Removes the Gallery from Explorer and sets This PC as default",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
-    "Order": "a030_"
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    "Order": "a030_",
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/removehomegallery"
   },
   "WPFTweaksDisplay": {
@@ -2284,7 +2271,7 @@
       "*AdobePhotoshopExpress*",
       "*HotspotShieldFreeVPN*",
       "*Microsoft.Advertising.Xaml*"
-    ]
+    ],
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/debloat"
   },
   "WPFTweaksRestorePoint": {
@@ -2293,7 +2280,7 @@
     "category": "Essential Tweaks",
     "panel": "1",
     "Checked": "False",
-    "Order": "a001_"
+    "Order": "a001_",
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/restorepoint"
   },
   "WPFTweaksEndTaskOnTaskbar": {
@@ -2421,20 +2408,7 @@
         "Value": "0",
         "OriginalValue": "<RemoveEntry>"
       }
-    ]
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    ],
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/removecopilot"
   },
   "WPFTweaksRecallOff": {
@@ -2465,20 +2439,7 @@
         "Value": "0",
         "OriginalValue": "<RemoveEntry>"
       }
-    ]
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    ],
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/disablerecall"
   },
   "WPFTweaksDisableLMS1": {
@@ -2486,20 +2447,7 @@
     "Description": "Intel LMS service is always listening on all ports and could be a huge security risk. There is no need to run LMS on home machines and even in the Enterprise there are better solutions.",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
-    "Order": "a026_"
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    "Order": "a026_",
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/disablelms1"
   },
   "WPFTweaksDisableWpbtExecution": {
@@ -2523,20 +2471,7 @@
     "Description": "Moves OneDrive files to Default Home Folders and Uninstalls it.",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
-    "Order": "a031_"
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    "Order": "a031_",
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/removeonedrive"
   },
   "WPFTweaksRazerBlock": {
@@ -2560,20 +2495,7 @@
         "OriginalValue": "0",
         "Type": "DWord"
       }
-    ]
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    ],
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/razerblock"
   },
   "WPFTweaksDisableNotifications": {
@@ -2606,32 +2528,6 @@
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
     "Order": "a021_",
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
     "service": [
       {
         "Name": "AGSService",
@@ -2691,20 +2587,7 @@
     "Description": "Reduce user interruptions by selectively blocking connections to Adobe's activation and telemetry servers. Credit: Ruddernation-Designs",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
-    "Order": "a021_"
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    "Order": "a021_",
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/blockadobenet"
   },
   "WPFTweaksRightClickMenu": {
@@ -2712,20 +2595,7 @@
     "Description": "Great Windows 11 tweak to bring back good context menus when right clicking things in explorer.",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
-    "Order": "a027_"
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    "Order": "a027_",
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/rightclickmenu"
   },
   "WPFTweaksDiskCleanup": {
@@ -2733,7 +2603,7 @@
     "Description": "Runs Disk Cleanup on Drive C: and removes old Windows Updates.",
     "category": "Essential Tweaks",
     "panel": "1",
-    "Order": "a009_"
+    "Order": "a009_",
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/diskcleanup"
   },
   "WPFTweaksDeleteTempFiles": {
@@ -2741,7 +2611,7 @@
     "Description": "Erases TEMP Folders",
     "category": "Essential Tweaks",
     "panel": "1",
-    "Order": "a002_"
+    "Order": "a002_",
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/deletetempfiles"
   },
   "WPFTweaksDVR": {
@@ -2911,32 +2781,6 @@
         "Type": "DWord"
       }
     ],
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
     "link": "https://winutil.christitus.com/dev/tweaks/customize-preferences/darkmode"
   },
   "WPFToggleBingSearch": {
@@ -3092,20 +2936,7 @@
         "DefaultState": "true",
         "Type": "DWord"
       }
-    ]
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    ],
     "link": "https://winutil.christitus.com/dev/tweaks/customize-preferences/snapflyout"
   },
   "WPFToggleSnapSuggestion": {
@@ -3124,20 +2955,7 @@
         "DefaultState": "true",
         "Type": "DWord"
       }
-    ]
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    ],
     "link": "https://winutil.christitus.com/dev/tweaks/customize-preferences/snapsuggestion"
   },
   "WPFToggleMouseAcceleration": {
@@ -3273,20 +3091,7 @@
         "DefaultState": "false",
         "Type": "DWord"
       }
-    ]
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    ],
     "link": "https://winutil.christitus.com/dev/tweaks/customize-preferences/hiddenfiles"
   },
   "WPFToggleShowExt": {
@@ -3305,20 +3110,7 @@
         "DefaultState": "false",
         "Type": "DWord"
       }
-    ]
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-,
+    ],
     "link": "https://winutil.christitus.com/dev/tweaks/customize-preferences/showext"
   },
   "WPFToggleTaskbarSearch": {
@@ -3483,19 +3275,6 @@
     "category": "Essential Tweaks",
     "panel": "1",
     "Order": "a005_"
-    
-    param($match)
-    $name = $match.Groups[1].Value
-    $script = $match.Groups[2].Value
-    # Replace line breaks with \n
-    $script = $script -replace '\r?\n', '\n'
-    # Escape backslashes (but not already escaped ones)
-    $script = $script -replace '\\', '\\'
-    # Escape double quotes
-    $script = $script -replace '"', '\"'
-    
-    "`"$name`": [`"$script`"]"
-
   },
   "WPFToggleDisableCrossDeviceResume": {
     "Content": "Cross-Device Resume",
