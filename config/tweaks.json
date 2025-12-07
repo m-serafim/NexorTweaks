@@ -83,28 +83,10 @@
       }
     ],
     "InvokeScript": [
-      "
-      Write-Host \"Turn on Hibernation\"
-      Start-Process -FilePath powercfg -ArgumentList \"/hibernate on\" -NoNewWindow -Wait
-
-      # Set hibernation as the default action
-      Start-Process -FilePath powercfg -ArgumentList \"/change standby-timeout-ac 60\" -NoNewWindow -Wait
-      Start-Process -FilePath powercfg -ArgumentList \"/change standby-timeout-dc 60\" -NoNewWindow -Wait
-      Start-Process -FilePath powercfg -ArgumentList \"/change monitor-timeout-ac 10\" -NoNewWindow -Wait
-      Start-Process -FilePath powercfg -ArgumentList \"/change monitor-timeout-dc 1\" -NoNewWindow -Wait
-      "
+      "Write-Host \"Turn on Hibernation\"\nStart-Process -FilePath powercfg -ArgumentList \"/hibernate on\" -NoNewWindow -Wait\n\n# Set hibernation as the default action\nStart-Process -FilePath powercfg -ArgumentList \"/change standby-timeout-ac 60\" -NoNewWindow -Wait\nStart-Process -FilePath powercfg -ArgumentList \"/change standby-timeout-dc 60\" -NoNewWindow -Wait\nStart-Process -FilePath powercfg -ArgumentList \"/change monitor-timeout-ac 10\" -NoNewWindow -Wait\nStart-Process -FilePath powercfg -ArgumentList \"/change monitor-timeout-dc 1\" -NoNewWindow -Wait"
     ],
     "UndoScript": [
-      "
-      Write-Host \"Turn off Hibernation\"
-      Start-Process -FilePath powercfg -ArgumentList \"/hibernate off\" -NoNewWindow -Wait
-
-      # Set standby to default values
-      Start-Process -FilePath powercfg -ArgumentList \"/change standby-timeout-ac 15\" -NoNewWindow -Wait
-      Start-Process -FilePath powercfg -ArgumentList \"/change standby-timeout-dc 15\" -NoNewWindow -Wait
-      Start-Process -FilePath powercfg -ArgumentList \"/change monitor-timeout-ac 15\" -NoNewWindow -Wait
-      Start-Process -FilePath powercfg -ArgumentList \"/change monitor-timeout-dc 15\" -NoNewWindow -Wait
-      "
+      "Write-Host \"Turn off Hibernation\"\nStart-Process -FilePath powercfg -ArgumentList \"/hibernate off\" -NoNewWindow -Wait\n\n# Set standby to default values\nStart-Process -FilePath powercfg -ArgumentList \"/change standby-timeout-ac 15\" -NoNewWindow -Wait\nStart-Process -FilePath powercfg -ArgumentList \"/change standby-timeout-dc 15\" -NoNewWindow -Wait\nStart-Process -FilePath powercfg -ArgumentList \"/change monitor-timeout-ac 15\" -NoNewWindow -Wait\nStart-Process -FilePath powercfg -ArgumentList \"/change monitor-timeout-dc 15\" -NoNewWindow -Wait"
     ],
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/laptophibernation"
   },
@@ -2027,41 +2009,6 @@
         "Type": "DWord"
       }
     ],
-    "InvokeScript": [
-      "
-      bcdedit /set `{current`} bootmenupolicy Legacy | Out-Null
-        If ((get-ItemProperty -Path \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\" -Name CurrentBuild).CurrentBuild -lt 22557) {
-            $taskmgr = Start-Process -WindowStyle Hidden -FilePath taskmgr.exe -PassThru
-            Do {
-                Start-Sleep -Milliseconds 100
-                $preferences = Get-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\TaskManager\" -Name \"Preferences\" -ErrorAction SilentlyContinue
-            } Until ($preferences)
-            Stop-Process $taskmgr
-            $preferences.Preferences[28] = 0
-            Set-ItemProperty -Path \"HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\TaskManager\" -Name \"Preferences\" -Type Binary -Value $preferences.Preferences
-        }
-        Remove-Item -Path \"HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}\" -Recurse -ErrorAction SilentlyContinue
-
-        # Fix Managed by your organization in Edge if regustry path exists then remove it
-
-        If (Test-Path \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Edge\") {
-            Remove-Item -Path \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Edge\" -Recurse -ErrorAction SilentlyContinue
-        }
-
-        # Group svchost.exe processes
-        $ram = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1kb
-        Set-ItemProperty -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Control\" -Name \"SvcHostSplitThresholdInKB\" -Type DWord -Value $ram -Force
-
-        $autoLoggerDir = \"$env:PROGRAMDATA\\Microsoft\\Diagnosis\\ETLLogs\\AutoLogger\"
-        If (Test-Path \"$autoLoggerDir\\AutoLogger-Diagtrack-Listener.etl\") {
-            Remove-Item \"$autoLoggerDir\\AutoLogger-Diagtrack-Listener.etl\"
-        }
-        icacls $autoLoggerDir /deny SYSTEM:`(OI`)`(CI`)F | Out-Null
-
-        # Disable Defender Auto Sample Submission
-        Set-MpPreference -SubmitSamplesConsent 2 -ErrorAction SilentlyContinue | Out-Null
-        "
-    ],
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/tele"
   },
   "WPFTweaksWifi": {
@@ -2135,18 +2082,6 @@
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
     "Order": "a029_",
-    "InvokeScript": [
-      "
-      REG DELETE \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace\\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}\" /f
-      REG ADD \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\" /f /v \"LaunchTo\" /t REG_DWORD /d \"1\"
-      "
-    ],
-    "UndoScript": [
-      "
-      REG ADD \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace\\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}\" /f /ve /t REG_SZ /d \"CLSID_MSGraphHomeFolder\"
-      REG DELETE \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\" /f /v \"LaunchTo\"
-      "
-    ],
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/removehomegallery"
   },
   "WPFTweaksRemoveGallery": {
@@ -2154,19 +2089,20 @@
     "Description": "Removes the Gallery from Explorer and sets This PC as default",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
-    "Order": "a030_",
-    "InvokeScript": [
-      "
-      REG DELETE \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace\\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}\" /f
-      REG ADD \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\" /f /v \"LaunchTo\" /t REG_DWORD /d \"1\"
-      "
-    ],
-    "UndoScript": [
-      "
-      REG ADD \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace\\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}\" /f /ve /t REG_SZ /d \"{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}\"
-      REG DELETE \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\" /f /v \"LaunchTo\"
-      "
-    ],
+    "Order": "a030_"
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/removehomegallery"
   },
   "WPFTweaksDisplay": {
@@ -2348,20 +2284,7 @@
       "*AdobePhotoshopExpress*",
       "*HotspotShieldFreeVPN*",
       "*Microsoft.Advertising.Xaml*"
-    ],
-    "InvokeScript": [
-      "
-      $TeamsPath = \"$Env:LocalAppData\\Microsoft\\Teams\\Update.exe\"
-
-      if (Test-Path $TeamsPath) {
-        Write-Host \"Uninstalling Teams\"
-        Start-Process $TeamsPath -ArgumentList -uninstall -wait
-
-        Write-Host \"Deleting Teams directory\"
-        Remove-Item $TeamsPath -Recurse -Force
-      }
-      "
-    ],
+    ]
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/debloat"
   },
   "WPFTweaksRestorePoint": {
@@ -2370,49 +2293,7 @@
     "category": "Essential Tweaks",
     "panel": "1",
     "Checked": "False",
-    "Order": "a001_",
-    "InvokeScript": [
-      "
-        # Check if System Restore is enabled for the main drive
-        try {
-            # Try getting restore points to check if System Restore is enabled
-            Enable-ComputerRestore -Drive \"$env:SystemDrive\"
-        } catch {
-            Write-Host \"An error occurred while enabling System Restore: $_\"
-        }
-
-        # Check if the SystemRestorePointCreationFrequency value exists
-        $exists = Get-ItemProperty -path \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\" -Name \"SystemRestorePointCreationFrequency\" -ErrorAction SilentlyContinue
-        if($null -eq $exists) {
-            write-host 'Changing system to allow multiple restore points per day'
-            Set-ItemProperty -Path \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\" -Name \"SystemRestorePointCreationFrequency\" -Value \"0\" -Type DWord -Force -ErrorAction Stop | Out-Null
-        }
-
-        # Attempt to load the required module for Get-ComputerRestorePoint
-        try {
-            Import-Module Microsoft.PowerShell.Management -ErrorAction Stop
-        } catch {
-            Write-Host \"Failed to load the Microsoft.PowerShell.Management module: $_\"
-            return
-        }
-
-        # Get all the restore points for the current day
-        try {
-            $existingRestorePoints = Get-ComputerRestorePoint | Where-Object { $_.CreationTime.Date -eq (Get-Date).Date }
-        } catch {
-            Write-Host \"Failed to retrieve restore points: $_\"
-            return
-        }
-
-        # Check if there is already a restore point created today
-        if ($existingRestorePoints.Count -eq 0) {
-            $description = \"System Restore Point created by WinUtil\"
-
-            Checkpoint-Computer -Description $description -RestorePointType \"MODIFY_SETTINGS\"
-            Write-Host -ForegroundColor Green \"System Restore Point Created Successfully\"
-        }
-      "
-    ],
+    "Order": "a001_"
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/restorepoint"
   },
   "WPFTweaksEndTaskOnTaskbar": {
@@ -2540,22 +2421,20 @@
         "Value": "0",
         "OriginalValue": "<RemoveEntry>"
       }
-    ],
-    "InvokeScript": [
-      "
-      Write-Host \"Remove Copilot\"
-      Get-Package | Where-Object Name -like '*copilot*'
-      Get-AppxPackage -AllUsers *Copilot* | Remove-AppxPackage -AllUsers
-      Get-AppxProvisionedPackage -Online | Where-Object PackageName -like '*Copilot*' | Remove-AppxProvisionedPackage -Online
-      dism /online /remove-package /package-name:Microsoft.Windows.Copilot
-      "
-    ],
-    "UndoScript": [
-      "
-      Write-Host \"Install Copilot\"
-      winget install --name \"Microsoft Copilot\" --source msstore --accept-package-agreements --accept-source-agreements --silent
-      "
-    ],
+    ]
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/removecopilot"
   },
   "WPFTweaksRecallOff": {
@@ -2586,21 +2465,20 @@
         "Value": "0",
         "OriginalValue": "<RemoveEntry>"
       }
-    ],
-    "InvokeScript": [
-      "
-      Write-Host \"Disable Recall\"
-      DISM /Online /Disable-Feature /FeatureName:Recall /Quiet /NoRestart
-      Write-Host \"Please restart your computer in order for the changes to be fully applied.\"
-      "
-    ],
-    "UndoScript": [
-      "
-      Write-Host \"Enable Recall\"
-      DISM /Online /Enable-Feature /FeatureName:Recall /Quiet /NoRestart
-      Write-Host \"Please restart your computer in order for the changes to be fully applied.\"
-      "
-    ],
+    ]
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/disablerecall"
   },
   "WPFTweaksDisableLMS1": {
@@ -2608,57 +2486,20 @@
     "Description": "Intel LMS service is always listening on all ports and could be a huge security risk. There is no need to run LMS on home machines and even in the Enterprise there are better solutions.",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
-    "Order": "a026_",
-    "InvokeScript": [
-      "
-        Write-Host \"Kill LMS\"
-        $serviceName = \"LMS\"
-        Write-Host \"Stopping and disabling service: $serviceName\"
-        Stop-Service -Name $serviceName -Force -ErrorAction SilentlyContinue;
-        Set-Service -Name $serviceName -StartupType Disabled -ErrorAction SilentlyContinue;
-
-        Write-Host \"Removing service: $serviceName\";
-        sc.exe delete $serviceName;
-
-        Write-Host \"Removing LMS driver packages\";
-        $lmsDriverPackages = Get-ChildItem -Path \"C:\\Windows\\System32\\DriverStore\\FileRepository\" -Recurse -Filter \"lms.inf*\";
-        foreach ($package in $lmsDriverPackages) {
-            Write-Host \"Removing driver package: $($package.Name)\";
-            pnputil /delete-driver $($package.Name) /uninstall /force;
-        }
-        if ($lmsDriverPackages.Count -eq 0) {
-            Write-Host \"No LMS driver packages found in the driver store.\";
-        } else {
-            Write-Host \"All found LMS driver packages have been removed.\";
-        }
-
-        Write-Host \"Searching and deleting LMS executable files\";
-        $programFilesDirs = @(\"C:\\Program Files\", \"C:\\Program Files (x86)\");
-        $lmsFiles = @();
-        foreach ($dir in $programFilesDirs) {
-            $lmsFiles += Get-ChildItem -Path $dir -Recurse -Filter \"LMS.exe\" -ErrorAction SilentlyContinue;
-        }
-        foreach ($file in $lmsFiles) {
-            Write-Host \"Taking ownership of file: $($file.FullName)\";
-            & icacls $($file.FullName) /grant Administrators:F /T /C /Q;
-            & takeown /F $($file.FullName) /A /R /D Y;
-            Write-Host \"Deleting file: $($file.FullName)\";
-            Remove-Item $($file.FullName) -Force -ErrorAction SilentlyContinue;
-        }
-        if ($lmsFiles.Count -eq 0) {
-            Write-Host \"No LMS.exe files found in Program Files directories.\";
-        } else {
-            Write-Host \"All found LMS.exe files have been deleted.\";
-        }
-        Write-Host 'Intel LMS vPro service has been disabled, removed, and blocked.';
-       "
-    ],
-    "UndoScript": [
-      "
-      Write-Host \"LMS vPro needs to be redownloaded from intel.com\"
-
-      "
-    ],
+    "Order": "a026_"
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/disablelms1"
   },
   "WPFTweaksDisableWpbtExecution": {
@@ -2682,23 +2523,20 @@
     "Description": "Moves OneDrive files to Default Home Folders and Uninstalls it.",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
-    "Order": "a031_",
-    "InvokeScript": [
-      "
-      Write-Host \"Uninstalling OneDrive\"
-      Start-Process \"$env:SystemRoot\\System32\\OneDriveSetup.exe\" -ArgumentList /uninstall -NoNewWindow -Wait
-
-      Write-Host \"Removing OneDrive leftovers\"
-      Remove-Item \"$env:LocalAppData\\Microsoft\\OneDrive\" -Recurse -Force
-      Remove-Item \"$env:ProgramData\\Microsoft OneDrive\" -Recurse -Force
-      "
-    ],
-    "UndoScript": [
-      "
-      Write-Host \"Install OneDrive\"
-      Start-Process -FilePath winget -ArgumentList \"install -e --accept-source-agreements --accept-package-agreements --silent Microsoft.OneDrive \" -NoNewWindow -Wait
-      "
-    ],
+    "Order": "a031_"
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/removeonedrive"
   },
   "WPFTweaksRazerBlock": {
@@ -2722,25 +2560,20 @@
         "OriginalValue": "0",
         "Type": "DWord"
       }
-    ],
-    "InvokeScript": [
-      "
-          $RazerPath = \"C:\\Windows\\Installer\\Razer\"
-          Remove-Item $RazerPath -Recurse -Force
-          New-Item -Path \"C:\\Windows\\Installer\\\" -Name \"Razer\" -ItemType \"directory\"
-          $Acl = Get-Acl $RazerPath
-          $Ar = New-Object System.Security.AccessControl.FileSystemAccessRule(\"NT AUTHORITY\\SYSTEM\",\"Write\",\"ContainerInherit,ObjectInherit\",\"None\",\"Deny\")
-          $Acl.SetAccessRule($Ar)
-          Set-Acl $RazerPath $Acl
-      "
-    ],
-    "UndoScript": [
-      "
-          $RazerPath = \"C:\\Windows\\Installer\\Razer\"
-          Remove-Item $RazerPath -Recurse -Force
-          New-Item -Path \"C:\\Windows\\Installer\\\" -Name \"Razer\" -ItemType \"directory\"
-      "
-    ],
+    ]
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/razerblock"
   },
   "WPFTweaksDisableNotifications": {
@@ -2773,95 +2606,32 @@
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
     "Order": "a021_",
-    "InvokeScript": [
-      "
-      function CCStopper {
-        $path = \"C:\\Program Files (x86)\\Common Files\\Adobe\\Adobe Desktop Common\\ADS\\Adobe Desktop Service.exe\"
-
-        # Test if the path exists before proceeding
-        if (Test-Path $path) {
-            Takeown /f $path
-            $acl = Get-Acl $path
-            $acl.SetOwner([System.Security.Principal.NTAccount]\"Administrators\")
-            $acl | Set-Acl $path
-
-            Rename-Item -Path $path -NewName \"Adobe Desktop Service.exe.old\" -Force
-        } else {
-            Write-Host \"Adobe Desktop Service is not in the default location.\"
-        }
-      }
-
-
-      function AcrobatUpdates {
-        # Editing Acrobat Updates. The last folder before the key is dynamic, therefore using a script.
-        # Possible Values for the edited key:
-        # 0 = Do not download or install updates automatically
-        # 2 = Automatically download updates but let the user choose when to install them
-        # 3 = Automatically download and install updates (default value)
-        # 4 = Notify the user when an update is available but don't download or install it automatically
-        #   = It notifies the user using Windows Notifications. It runs on startup without having to have a Service/Acrobat/Reader running, therefore 0 is the next best thing.
-
-        $rootPath = \"HKLM:\\SOFTWARE\\WOW6432Node\\Adobe\\Adobe ARM\\Legacy\\Acrobat\"
-
-        # Get all subkeys under the specified root path
-        $subKeys = Get-ChildItem -Path $rootPath | Where-Object { $_.PSChildName -like \"{*}\" }
-
-        # Loop through each subkey
-        foreach ($subKey in $subKeys) {
-            # Get the full registry path
-            $fullPath = Join-Path -Path $rootPath -ChildPath $subKey.PSChildName
-            try {
-                Set-ItemProperty -Path $fullPath -Name Mode -Value 0
-                Write-Host \"Acrobat Updates have been disabled.\"
-            } catch {
-                Write-Host \"Registry Key for changing Acrobat Updates does not exist in $fullPath\"
-            }
-        }
-      }
-
-      CCStopper
-      AcrobatUpdates
-      "
-    ],
-    "UndoScript": [
-      "
-      function RestoreCCService {
-        $originalPath = \"C:\\Program Files (x86)\\Common Files\\Adobe\\Adobe Desktop Common\\ADS\\Adobe Desktop Service.exe.old\"
-        $newPath = \"C:\\Program Files (x86)\\Common Files\\Adobe\\Adobe Desktop Common\\ADS\\Adobe Desktop Service.exe\"
-
-        if (Test-Path -Path $originalPath) {
-            Rename-Item -Path $originalPath -NewName \"Adobe Desktop Service.exe\" -Force
-            Write-Host \"Adobe Desktop Service has been restored.\"
-        } else {
-            Write-Host \"Backup file does not exist. No changes were made.\"
-        }
-      }
-
-      function AcrobatUpdates {
-        # Default Value:
-        # 3 = Automatically download and install updates
-
-        $rootPath = \"HKLM:\\SOFTWARE\\WOW6432Node\\Adobe\\Adobe ARM\\Legacy\\Acrobat\"
-
-        # Get all subkeys under the specified root path
-        $subKeys = Get-ChildItem -Path $rootPath | Where-Object { $_.PSChildName -like \"{*}\" }
-
-        # Loop through each subkey
-        foreach ($subKey in $subKeys) {
-            # Get the full registry path
-            $fullPath = Join-Path -Path $rootPath -ChildPath $subKey.PSChildName
-            try {
-                Set-ItemProperty -Path $fullPath -Name Mode -Value 3
-            } catch {
-                Write-Host \"Registry Key for changing Acrobat Updates does not exist in $fullPath\"
-            }
-        }
-      }
-
-      RestoreCCService
-      AcrobatUpdates
-      "
-    ],
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "service": [
       {
         "Name": "AGSService",
@@ -2921,31 +2691,20 @@
     "Description": "Reduce user interruptions by selectively blocking connections to Adobe's activation and telemetry servers. Credit: Ruddernation-Designs",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
-    "Order": "a021_",
-    "InvokeScript": [
-      "
-      $hostsUrl = \"https://github.com/Ruddernation-Designs/Adobe-URL-Block-List/raw/refs/heads/master/hosts\"
-      $hosts = \"$env:SystemRoot\\System32\\drivers\\etc\\hosts\"
-
-      Copy-Item $hosts \"$hosts.bak\"
-      Invoke-WebRequest $hostsUrl -OutFile $hosts
-      ipconfig flushdns
-
-      Write-Host \"Added Adobe url block list from host file\"
-      "
-    ],
-    "UndoScript": [
-      "
-      $hosts = \"$env:SystemRoot\\System32\\drivers\\etc\\hosts\"
-      $backup = \"$hosts.bak\"
-
-      Copy-Item $backup $hosts
-      Remove-Item $backup
-      ipconfig flushdns
-
-      Write-Host \"Removed Adobe url block list from host file\"
-      "
-    ],
+    "Order": "a021_"
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/blockadobenet"
   },
   "WPFTweaksRightClickMenu": {
@@ -2953,22 +2712,20 @@
     "Description": "Great Windows 11 tweak to bring back good context menus when right clicking things in explorer.",
     "category": "z__Advanced Tweaks - CAUTION",
     "panel": "1",
-    "Order": "a027_",
-    "InvokeScript": [
-      "
-      New-Item -Path \"HKCU:\\Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\" -Name \"InprocServer32\" -force -value \"\"
-      Write-Host Restarting explorer.exe ...
-      Stop-Process -Name \"explorer\" -Force
-      "
-    ],
-    "UndoScript": [
-      "
-      Remove-Item -Path \"HKCU:\\Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\" -Recurse -Confirm:$false -Force
-      # Restarting Explorer in the Undo Script might not be necessary, as the Registry change without restarting Explorer does work, but just to make sure.
-      Write-Host Restarting explorer.exe ...
-      Stop-Process -Name \"explorer\" -Force
-      "
-    ],
+    "Order": "a027_"
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/z--advanced-tweaks---caution/rightclickmenu"
   },
   "WPFTweaksDiskCleanup": {
@@ -2976,13 +2733,7 @@
     "Description": "Runs Disk Cleanup on Drive C: and removes old Windows Updates.",
     "category": "Essential Tweaks",
     "panel": "1",
-    "Order": "a009_",
-    "InvokeScript": [
-      "
-      cleanmgr.exe /d C: /VERYLOWDISK
-      Dism.exe /online /Cleanup-Image /StartComponentCleanup /ResetBase
-      "
-    ],
+    "Order": "a009_"
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/diskcleanup"
   },
   "WPFTweaksDeleteTempFiles": {
@@ -2990,13 +2741,7 @@
     "Description": "Erases TEMP Folders",
     "category": "Essential Tweaks",
     "panel": "1",
-    "Order": "a002_",
-    "InvokeScript": [
-      "
-      Remove-Item -Path \"$Env:Temp\\*\" -Recurse -Force
-      Remove-Item -Path \"$Env:SystemRoot\\Temp\\*\" -Recurse -Force
-      "
-    ],
+    "Order": "a002_"
     "link": "https://winutil.christitus.com/dev/tweaks/essential-tweaks/deletetempfiles"
   },
   "WPFTweaksDVR": {
@@ -3166,22 +2911,32 @@
         "Type": "DWord"
       }
     ],
-    "InvokeScript": [
-      "
-      Invoke-WinUtilExplorerUpdate
-      if ($sync.ThemeButton.Content -eq [char]0xF08C) {
-        Invoke-WinutilThemeChange -theme \"Auto\"
-      }
-      "
-    ],
-    "UndoScript": [
-      "
-      Invoke-WinUtilExplorerUpdate
-      if ($sync.ThemeButton.Content -eq [char]0xF08C) {
-        Invoke-WinutilThemeChange -theme \"Auto\"
-      }
-      "
-    ],
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/customize-preferences/darkmode"
   },
   "WPFToggleBingSearch": {
@@ -3337,17 +3092,20 @@
         "DefaultState": "true",
         "Type": "DWord"
       }
-    ],
-    "InvokeScript": [
-      "
-      Invoke-WinUtilExplorerUpdate -action \"restart\"
-      "
-    ],
-    "UndoScript": [
-      "
-      Invoke-WinUtilExplorerUpdate -action \"restart\"
-      "
-    ],
+    ]
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/customize-preferences/snapflyout"
   },
   "WPFToggleSnapSuggestion": {
@@ -3366,17 +3124,20 @@
         "DefaultState": "true",
         "Type": "DWord"
       }
-    ],
-    "InvokeScript": [
-      "
-      Invoke-WinUtilExplorerUpdate -action \"restart\"
-      "
-    ],
-    "UndoScript": [
-      "
-      Invoke-WinUtilExplorerUpdate -action \"restart\"
-      "
-    ],
+    ]
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/customize-preferences/snapsuggestion"
   },
   "WPFToggleMouseAcceleration": {
@@ -3512,17 +3273,20 @@
         "DefaultState": "false",
         "Type": "DWord"
       }
-    ],
-    "InvokeScript": [
-      "
-      Invoke-WinUtilExplorerUpdate -action \"restart\"
-      "
-    ],
-    "UndoScript": [
-      "
-      Invoke-WinUtilExplorerUpdate -action \"restart\"
-      "
-    ],
+    ]
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/customize-preferences/hiddenfiles"
   },
   "WPFToggleShowExt": {
@@ -3541,17 +3305,20 @@
         "DefaultState": "false",
         "Type": "DWord"
       }
-    ],
-    "InvokeScript": [
-      "
-      Invoke-WinUtilExplorerUpdate -action \"restart\"
-      "
-    ],
-    "UndoScript": [
-      "
-      Invoke-WinUtilExplorerUpdate -action \"restart\"
-      "
-    ],
+    ]
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
+,
     "link": "https://winutil.christitus.com/dev/tweaks/customize-preferences/showext"
   },
   "WPFToggleTaskbarSearch": {
@@ -3715,55 +3482,20 @@
     "Description": "Windows Explorer automatically tries to guess the type of the folder based on its contents, slowing down the browsing experience.",
     "category": "Essential Tweaks",
     "panel": "1",
-    "Order": "a005_",
-    "InvokeScript": [
-      "
-      # Previously detected folders
-      $bags = \"HKCU:\\Software\\Classes\\Local Settings\\Software\\Microsoft\\Windows\\Shell\\Bags\"
+    "Order": "a005_"
+    
+    param($match)
+    $name = $match.Groups[1].Value
+    $script = $match.Groups[2].Value
+    # Replace line breaks with \n
+    $script = $script -replace '\r?\n', '\n'
+    # Escape backslashes (but not already escaped ones)
+    $script = $script -replace '\\', '\\'
+    # Escape double quotes
+    $script = $script -replace '"', '\"'
+    
+    "`"$name`": [`"$script`"]"
 
-      # Folder types lookup table
-      $bagMRU = \"HKCU:\\Software\\Classes\\Local Settings\\Software\\Microsoft\\Windows\\Shell\\BagMRU\"
-
-      # Flush Explorer view database
-      Remove-Item -Path $bags -Recurse -Force
-      Write-Host \"Removed $bags\"
-
-      Remove-Item -Path $bagMRU -Recurse -Force
-      Write-Host \"Removed $bagMRU\"
-
-      # Every folder
-      $allFolders = \"HKCU:\\Software\\Classes\\Local Settings\\Software\\Microsoft\\Windows\\Shell\\Bags\\AllFolders\\Shell\"
-
-      if (!(Test-Path $allFolders)) {
-        New-Item -Path $allFolders -Force
-        Write-Host \"Created $allFolders\"
-      }
-
-      # Generic view
-      New-ItemProperty -Path $allFolders -Name \"FolderType\" -Value \"NotSpecified\" -PropertyType String -Force
-      Write-Host \"Set FolderType to NotSpecified\"
-
-      Write-Host Please sign out and back in, or restart your computer to apply the changes!
-      "
-    ],
-    "UndoScript": [
-      "
-      # Previously detected folders
-      $bags = \"HKCU:\\Software\\Classes\\Local Settings\\Software\\Microsoft\\Windows\\Shell\\Bags\"
-
-      # Folder types lookup table
-      $bagMRU = \"HKCU:\\Software\\Classes\\Local Settings\\Software\\Microsoft\\Windows\\Shell\\BagMRU\"
-
-      # Flush Explorer view database
-      Remove-Item -Path $bags -Recurse -Force
-      Write-Host \"Removed $bags\"
-
-      Remove-Item -Path $bagMRU -Recurse -Force
-      Write-Host \"Removed $bagMRU\"
-
-      Write-Host Please sign out and back in, or restart your computer to apply the changes!
-      "
-    ]
   },
   "WPFToggleDisableCrossDeviceResume": {
     "Content": "Cross-Device Resume",

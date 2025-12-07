@@ -9,8 +9,8 @@ namespace C_TweaksPs1
         {
             try
             {
-                // Check for administrator privileges
-                AdminChecker.EnsureAdminOrExit();
+                // Check for administrator privileges and restart if needed
+                AdminChecker.EnsureAdminOrRestart();
 
                 Console.WriteLine("╔═══════════════════════════════════════════════════════════════╗");
                 Console.WriteLine("║              Windows Tweak Engine (C# Edition)                ║");
