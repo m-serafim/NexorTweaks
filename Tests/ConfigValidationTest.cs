@@ -6,7 +6,7 @@ namespace C_TweaksPs1.Tests
 {
     public class ConfigValidationTest
     {
-        public static void Main(string[] args)
+        public static void Run(string[] args)
         {
             try
             {
