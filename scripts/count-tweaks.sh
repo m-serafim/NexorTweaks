@@ -18,6 +18,12 @@ echo "Tweaks Configuration Statistics"
 echo "==================================="
 echo ""
 
+# Check if python3 is available
+if ! command -v python3 &> /dev/null; then
+    echo "⚠️  Warning: python3 not found, cannot count tweaks"
+    exit 1
+fi
+
 # Count total tweaks
 TOTAL_TWEAKS=$(python3 -c "import json; print(len(json.load(open('$JSON_FILE'))))")
 echo "📊 Total Tweaks: $TOTAL_TWEAKS"
@@ -25,7 +31,7 @@ echo "📊 Total Tweaks: $TOTAL_TWEAKS"
 # Count tweaks by category
 echo ""
 echo "Tweaks by Category:"
-python3 << 'EOF'
+python3 << EOF
 import json
 
 with open('$JSON_FILE') as f:
