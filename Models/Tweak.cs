@@ -13,9 +13,15 @@ namespace C_TweaksPs1.Models
         [JsonPropertyName("Content")]
         public string Content { get; set; } = string.Empty;
 
+        /// <summary>
+        /// A detailed description of what the tweak does.
+        /// </summary>
         [JsonPropertyName("Description")]
         public string Description { get; set; } = string.Empty;
 
+        /// <summary>
+        /// The category this tweak belongs to (e.g., "Essential Tweaks", "z__Advanced Tweaks - CAUTION").
+        /// </summary>
         [JsonPropertyName("category")]
         public string Category { get; set; } = string.Empty;
 
