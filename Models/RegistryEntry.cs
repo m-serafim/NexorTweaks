@@ -25,9 +25,15 @@ namespace C_TweaksPs1.Models
         [JsonPropertyName("Type")]
         public string Type { get; set; } = string.Empty;
 
+        /// <summary>
+        /// The value to set for this registry entry when applying the tweak.
+        /// </summary>
         [JsonPropertyName("Value")]
         public string Value { get; set; } = string.Empty;
 
+        /// <summary>
+        /// The original value to restore when undoing the tweak. Use "<RemoveEntry>" to indicate the value should be removed.
+        /// </summary>
         [JsonPropertyName("OriginalValue")]
         public string OriginalValue { get; set; } = string.Empty;
     }
