@@ -3,10 +3,20 @@ using C_TweaksPs1.Models;
 
 namespace C_TweaksPs1.Core
 {
+    /// <summary>
+    /// Loads and validates the tweak configuration from JSON files.
+    /// </summary>
     public class ConfigurationLoader
     {
         private const string DefaultConfigPath = "config/tweaks.json";
 
+        /// <summary>
+        /// Loads the tweak configuration from the specified JSON file.
+        /// </summary>
+        /// <param name="configPath">Optional path to the configuration file. Uses default if not provided.</param>
+        /// <returns>A TweakConfig object containing all loaded tweaks.</returns>
+        /// <exception cref="FileNotFoundException">Thrown when the configuration file cannot be found.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when no tweaks are found in the file.</exception>
         public TweakConfig LoadConfiguration(string? configPath = null)
         {
             try
