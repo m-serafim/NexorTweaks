@@ -70,9 +70,11 @@ namespace C_TweaksPs1.Core
                 if (tweak.InvokeScript != null && tweak.InvokeScript.Count > 0)
                 {
                     Console.WriteLine($"  Executing {tweak.InvokeScript.Count} invoke scripts...");
-                    foreach (var script in tweak.InvokeScript)
+                    for (int i = 0; i < tweak.InvokeScript.Count; i++)
                     {
-                        if (!await _scriptRunner.ExecuteScriptAsync(script, "invoke script"))
+                        var script = tweak.InvokeScript[i];
+                        var description = $"invoke script {i + 1}/{tweak.InvokeScript.Count} for '{tweak.Content}'";
+                        if (!await _scriptRunner.ExecuteScriptAsync(script, description))
                         {
                             success = false;
                         }
@@ -109,9 +111,11 @@ namespace C_TweaksPs1.Core
                 if (tweak.UndoScript != null && tweak.UndoScript.Count > 0)
                 {
                     Console.WriteLine($"  Executing {tweak.UndoScript.Count} undo scripts...");
-                    foreach (var script in tweak.UndoScript)
+                    for (int i = 0; i < tweak.UndoScript.Count; i++)
                     {
-                        if (!await _scriptRunner.ExecuteScriptAsync(script, "undo script"))
+                        var script = tweak.UndoScript[i];
+                        var description = $"undo script {i + 1}/{tweak.UndoScript.Count} for '{tweak.Content}'";
+                        if (!await _scriptRunner.ExecuteScriptAsync(script, description))
                         {
                             success = false;
                         }

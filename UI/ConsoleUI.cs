@@ -8,12 +8,14 @@ namespace C_TweaksPs1.UI
         private readonly TweakConfig _config;
         private readonly TweakEngine _engine;
         private readonly Dictionary<string, List<string>> _categories;
+        private readonly Dictionary<string, string> _wrappedDescriptions;
 
         public ConsoleUI(TweakConfig config, TweakEngine engine)
         {
             _config = config;
             _engine = engine;
             _categories = new ConfigurationLoader().GetTweaksByCategory(config);
+            _wrappedDescriptions = new Dictionary<string, string>();
         }
 
         public async Task RunAsync()
@@ -208,7 +210,14 @@ namespace C_TweaksPs1.UI
             Console.WriteLine($"Category: {tweak.Category}");
             Console.WriteLine();
             Console.WriteLine("Description:");
-            Console.WriteLine($"  {WrapText(tweak.Description, 60)}");
+            
+            // Cache wrapped descriptions for performance
+            if (!_wrappedDescriptions.TryGetValue(key, out string? wrappedDesc))
+            {
+                wrappedDesc = WrapText(tweak.Description, 60);
+                _wrappedDescriptions[key] = wrappedDesc;
+            }
+            Console.WriteLine($"  {wrappedDesc}");
             Console.WriteLine();
 
             // Show what will be modified

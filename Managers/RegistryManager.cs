@@ -216,9 +216,17 @@ namespace C_TweaksPs1.Managers
                 
                 case "binary":
                     // Parse hex string to byte array
-                    if (value.StartsWith("0x"))
-                        value = value.Substring(2);
-                    return Convert.FromHexString(value.Replace(",", "").Replace(" ", ""));
+                    try
+                    {
+                        if (value.StartsWith("0x"))
+                            value = value.Substring(2);
+                        var cleanedValue = value.Replace(",", "").Replace(" ", "");
+                        return Convert.FromHexString(cleanedValue);
+                    }
+                    catch (FormatException ex)
+                    {
+                        throw new ArgumentException($"Invalid binary value format: '{value}'. Expected hex string like '0x01,0x02' or '0102'.", ex);
+                    }
                 
                 case "multistring":
                     return value.Split(new[] { "\\0" }, StringSplitOptions.RemoveEmptyEntries);

@@ -35,7 +35,8 @@ namespace C_TweaksPs1.Managers
                 var output = process.StandardOutput.ReadToEnd();
                 var error = process.StandardError.ReadToEnd();
 
-                process.WaitForExit(30000); // 30 second timeout
+                const int TimeoutMilliseconds = 30000; // 30 second timeout
+                process.WaitForExit(TimeoutMilliseconds);
 
                 if (!string.IsNullOrWhiteSpace(output))
                 {
