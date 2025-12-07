@@ -2,8 +2,14 @@ using System.Text.Json.Serialization;
 
 namespace C_TweaksPs1.Models
 {
+    /// <summary>
+    /// Represents a Windows Registry modification entry.
+    /// </summary>
     public class RegistryEntry
     {
+        /// <summary>
+        /// The registry key path (e.g., "HKLM:\\Software\\Microsoft\\Windows").
+        /// </summary>
         [JsonPropertyName("Path")]
         public string Path { get; set; } = string.Empty;
 
